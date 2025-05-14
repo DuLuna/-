@@ -30,39 +30,86 @@
             padding: 15px;
             border: 2px dashed #333;
             border-radius: 5px;
+            text-align: center;
+            min-width: 300px;
+        }
+        .card-image {
+            width: 200px;
+            height: 280px;
+            object-fit: cover;
+            margin: 10px auto;
+            display: block;
+            border: 3px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     </style>
 </head>
 <body>
+    <h1>28卡池抽卡模拟器</h1>
     <button onclick="draw()">点击抽卡</button>
-    <div id="result">等待抽卡...</div>
+    <div id="result">点击上方按钮开始抽卡</div>
 
     <script>
-        // 28张卡牌列表（直接替换此处内容即可修改卡池）
+        // 卡牌数据 - 已适配你的/images路径
         const cards = [
-            "石纵欲", "石纵欲",
-            "铜纵欲", "铜纵欲",
-            "银纵欲", "银纵欲",
-            "金纵欲",
-            "石征服", "石征服",
-            "铜征服", "铜征服",
-            "银征服", "银征服",
-            "金征服",
-            "石奢靡", "石奢靡",
-            "铜奢靡", "铜奢靡",
-            "银奢靡", "银奢靡",
-            "金奢靡",
-            "石杀戮", "石杀戮",
-            "铜杀戮", "铜杀戮",
-            "银杀戮", "银杀戮",
-            "金杀戮"
+            { name: "石纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石纵欲.jpg" },
+            { name: "石纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石纵欲.jpg" },
+            { name: "铜纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜纵欲.jpg" },
+            { name: "铜纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜纵欲.jpg" },
+            { name: "银纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银纵欲.jpg" },
+            { name: "银纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银纵欲.jpg" },
+            { name: "金纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/金纵欲.jpg" },
+            { name: "石征服", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石征服.jpg" },
+            { name: "石征服", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石征服.jpg" },
+            { name: "铜征服", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜征服.jpg" },
+            { name: "铜征服", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜征服.jpg" },
+            { name: "银征服", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银征服.jpg" },
+            { name: "银征服", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银征服.jpg" },
+            { name: "金征服", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/金征服.jpg" },
+            { name: "石奢靡", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石奢靡.jpg" },
+            { name: "石奢靡", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石奢靡.jpg" },
+            { name: "铜奢靡", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜奢靡.jpg" },
+            { name: "铜奢靡", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜奢靡.jpg" },
+            { name: "银奢靡", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银奢靡.jpg" },
+            { name: "银奢靡", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银奢靡.jpg" },
+            { name: "金奢靡", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/金奢靡.jpg" },
+            { name: "石杀戮", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石杀戮.jpg" },
+            { name: "石杀戮", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石杀戮.jpg" },
+            { name: "铜杀戮", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜杀戮.jpg" },
+            { name: "铜杀戮", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/铜杀戮.jpg" },
+            { name: "银杀戮", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银杀戮.jpg" },
+            { name: "银杀戮", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/银杀戮.jpg" },
+            { name: "金杀戮", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/金杀戮.jpg" }
         ];
 
         function draw() {
             const index = Math.floor(Math.random() * cards.length);
+            const drawnCard = cards[index];
             const resultElement = document.getElementById("result");
-            resultElement.innerHTML = `抽到了：<strong>${cards[index]}</strong>`;
-            resultElement.style.backgroundColor = "#fff3cd"; // 添加背景色强调
+            
+            resultElement.innerHTML = `
+                <div class="card-container">
+                    <img src="${drawnCard.image}" alt="${drawnCard.name}" class="card-image" 
+                         onerror="this.src='https://via.placeholder.com/200x280?text=图片加载失败'">
+                    <div>抽到了：<strong>${drawnCard.name}</strong></div>
+                </div>
+            `;
+            
+            // 设置稀有度背景色
+            const rarityColor = {
+                "金": "#ffd700",
+                "银": "#c0c0c0",
+                "铜": "#cd7f32",
+                "石": "#fff3cd"
+            };
+            const firstChar = drawnCard.name.charAt(0);
+            resultElement.style.backgroundColor = rarityColor[firstChar] || "#fff3cd";
         }
     </script>
 </body>
