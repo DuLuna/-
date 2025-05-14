@@ -32,31 +32,34 @@
             border-radius: 5px;
             text-align: center;
             min-width: 300px;
-        }
-        .card-image {
-            width: 200px;
-            height: 280px;
-            object-fit: cover;
-            margin: 10px auto;
-            display: block;
-            border: 3px solid #333;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background-color: white;
         }
         .card-container {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+        .card-image {
+            width: 200px;
+            height: auto;
+            max-height: 280px;
+            object-fit: contain;
+            margin: 10px auto;
+            display: block;
+            border: 3px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: white;
+        }
     </style>
 </head>
 <body>
-    <h1>28卡池抽卡模拟器</h1>
-    <button onclick="draw()">点击抽卡</button>
+    <h1>28苏丹的游戏抽卡模拟器</h1>
+    <button onclick="draw()">大人请抽卡</button>
     <div id="result">点击上方按钮开始抽卡</div>
 
     <script>
-        // 卡牌数据 - 已适配你的/images路径
+        // 卡牌数据 - 使用你的GitHub图片路径
         const cards = [
             { name: "石纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石纵欲.jpg" },
             { name: "石纵欲", image: "https://raw.githubusercontent.com/DuLuna/-/main/images/石纵欲.jpg" },
@@ -95,8 +98,12 @@
             
             resultElement.innerHTML = `
                 <div class="card-container">
-                    <img src="${drawnCard.image}" alt="${drawnCard.name}" class="card-image" 
-                         onerror="this.src='https://via.placeholder.com/200x280?text=图片加载失败'">
+                    <img src="${drawnCard.image}" 
+                         alt="${drawnCard.name}" 
+                         class="card-image"
+                         onload="this.style.opacity=1" 
+                         onerror="this.src='https://via.placeholder.com/200x280?text=图片加载失败'"
+                         style="opacity:0; transition: opacity 0.3s">
                     <div>抽到了：<strong>${drawnCard.name}</strong></div>
                 </div>
             `;
@@ -109,7 +116,7 @@
                 "石": "#fff3cd"
             };
             const firstChar = drawnCard.name.charAt(0);
-            resultElement.style.backgroundColor = rarityColor[firstChar] || "#fff3cd";
+            resultElement.style.backgroundColor = rarityColor[firstChar] || "white";
         }
     </script>
 </body>
